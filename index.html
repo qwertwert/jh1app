@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
-<body>
+<head>
+    <script>
+        function initForm() {
+            var btn = document.createElement("BUTTON");
+            btn.innerHTML = "CLICK ME";
+            document.body.appendChild(btn);
+        }
+    </script>
+</head>
+<body onload="initForm()">
 
-<p>Click the button to make a BUTTON element with text.</p>
+<p>Fill this form and click MAKE.</p>
 
-<button onclick="myFunction()">Try it</button>
-
-<script>
-function myFunction() {
-  var btn = document.createElement("BUTTON");
-  btn.innerHTML = "CLICK ME";
-  document.body.appendChild(btn);
-}
-</script>
+<button onclick="makeChart()">MAKE</button>
 
 </body>
 </html>
