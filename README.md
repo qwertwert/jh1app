@@ -1,3 +1,3 @@
-# jh1app
+# 인생그래프
 
-For AWS Amplify practice
+인생그래프를 그려보고 나눠보자.
