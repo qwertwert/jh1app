@@ -1,19 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <!-- tui chart -->
+	<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+    <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+    
     <script>
         function initForm() {
-            var btn = document.createElement("BUTTON");
-            btn.innerHTML = "CLICK ME";
-            document.body.appendChild(btn);
+            for(var i=2; i<=5; i++) {
+                var itm = document.getElementById("tr");
+                var cln = itm.cloneNode(true);
+                cln.children[0].innerText = i;
+                document.getElementById("tbody").appendChild(cln);
+            }
+        }
+        function makeChart() {
+            // document.getElementById("chart").remove();
+
+            var age_list = [];
+            var age_el_list = document.getElementsByClassName('age');
+            Array.from(age_el_list).forEach((el) => {
+                console.log(el.value);
+                age_list.push(el.value);
+            });
+
+            var score_list = [];
+            var score_el_list = document.getElementsByClassName('score');
+            Array.from(score_el_list).forEach((el) => {
+                console.log(el.value);
+                score_list.push(Number(el.value));
+            });
+
+            var memo_el_list = document.getElementsByClassName('memo');
+
+            var el = document.getElementById('chart');
+			var data = {
+				categories: age_list,
+				series: [
+                    {
+                        name: '인생차트',
+                        data: score_list,
+                    },
+				],
+			};
+			var options = {
+                chart: { width: 600, height: 300 },
+                series: {
+                    showDot: true
+                },
+			};
+			var chart = toastui.Chart;
+			var nchart = chart.lineChart({ el, data, options });
         }
     </script>
 </head>
 <body onload="initForm()">
 
-<p>Fill this form and click MAKE.</p>
+<h1>인생그래프</h1>
 
-<button onclick="makeChart()">MAKE</button>
+<h2>인생의 어느 지점</h2>
+<table>
+    <tbody id="tbody">
+        <tr>
+            <th>No.</th>
+            <th>나이</th>
+            <th>만족도</th>
+            <th>설명</th>
+        </tr>
+        <tr id="tr">
+            <td>1</td>
+            <td>
+                <select class="age">
+                    <option selected>10대</option>
+                    <option>20대</option>
+                    <option>30대</option>
+                    <option>40대</option>
+                    <option>50대</option>
+                </select>
+            </td>
+            <td>
+                <select class="score">
+                    <option>10</option>
+                    <option>5</option>
+                    <option selected>0</option>
+                    <option>-5</option>
+                    <option>-10</option>
+                </select>
+            </td>
+            <td>
+                <input class="memo">
+            </td>
+        </tr>
+    </tbody>
+</table>
 
+<h2>그래프 표시</h2>
+<button onclick="makeChart()">보여줘</button>
+<div id="chart"></div>
 </body>
 </html>
