@@ -8,27 +8,41 @@
     
     <script>
         function initForm() {
-            for(var i=2; i<=5; i++) {
-                var itm = document.getElementById("tr");
-                var cln = itm.cloneNode(true);
+            for(var i=0; i<=100; i++) {
+                var sel_age = document.getElementsByClassName('age')[0];
+                var opt = document.createElement('option');
+                opt.innerText = i;
+                sel_age.append(opt);
+            }
+            for(var i=0; i<=10; i++) {
+                var sel_score = document.getElementsByClassName('score')[0];
+                var opt = document.createElement('option');
+                opt.innerText = i;
+                sel_score.append(opt);
+            }
+            for(var i=2; i<=10; i++) {
+                var tr = document.getElementsByClassName("tr")[0];
+                var cln = tr.cloneNode(true);
                 cln.children[0].innerText = i;
                 document.getElementById("tbody").appendChild(cln);
             }
         }
+        function removeTR(event) {
+            btn = event.target;
+            btn.parentElement.parentElement.remove();
+        }
         function makeChart() {
-            // document.getElementById("chart").remove();
+            document.getElementById("chart").innerHTML = '';
 
             var age_list = [];
             var age_el_list = document.getElementsByClassName('age');
             Array.from(age_el_list).forEach((el) => {
-                console.log(el.value);
-                age_list.push(el.value);
+                age_list.push(Number(el.value));
             });
 
             var score_list = [];
             var score_el_list = document.getElementsByClassName('score');
             Array.from(score_el_list).forEach((el) => {
-                console.log(el.value);
                 score_list.push(Number(el.value));
             });
 
@@ -36,18 +50,18 @@
 
             var el = document.getElementById('chart');
 			var data = {
-				categories: age_list,
 				series: [
                     {
-                        name: '인생차트',
-                        data: score_list,
+                        name: '인생그래프',
+                        data: age_list.map((a, i) => [a, score_list[i]]),
                     },
 				],
 			};
 			var options = {
                 chart: { width: 600, height: 300 },
                 series: {
-                    showDot: true
+                    showDot: true,
+                    spline: true,
                 },
 			};
 			var chart = toastui.Chart;
@@ -68,28 +82,21 @@
             <th>만족도</th>
             <th>설명</th>
         </tr>
-        <tr id="tr">
+        <tr class="tr">
             <td>1</td>
             <td>
                 <select class="age">
-                    <option selected>10대</option>
-                    <option>20대</option>
-                    <option>30대</option>
-                    <option>40대</option>
-                    <option>50대</option>
                 </select>
             </td>
             <td>
                 <select class="score">
-                    <option>10</option>
-                    <option>5</option>
-                    <option selected>0</option>
-                    <option>-5</option>
-                    <option>-10</option>
                 </select>
             </td>
             <td>
                 <input class="memo">
+            </td>
+            <td>
+                <button onclick="removeTR(event)">삭제</button>
             </td>
         </tr>
     </tbody>
